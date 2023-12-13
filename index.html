@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Epilepsy Detection</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Add your custom styles here if needed */
+      body {
+        padding: 20px;
+      }
+
+      /* Adjustments for iframes */
+      iframe {
+        width: 100%;
+        height: 300px; /* Adjust height as needed */
+        border: 1px solid #cccccc;
+      }
+
+      h2 {
+        color: #006599;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2>Welcome to Epilepsy Shield</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h3>About us</h3>
+          <p>About us</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h2>GSR Readings</h2>
+          <iframe
+            src="https://thingspeak.com/channels/2376639/charts/1?bgcolor=%23ffffff&color=%23d62020&max=Tue+Dec+12+2023+13%3A00%3A00+GMT+%2B0200&min=Tue+Dec+12+2023+12%3A48%3A00+GMT+%2B0200&results=60"
+          ></iframe>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h2>TEMP Readings</h2>
+          <iframe
+            src="https://thingspeak.com/channels/2376639/charts/2?bgcolor=%23ffffff&color=%23d62020&results=60"
+          ></iframe>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h2>Accelerometer Readings</h2>
+        </div>
+        <div class="col-md-6">
+          <iframe
+            src="https://thingspeak.com/channels/2376639/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"
+          ></iframe>
+        </div>
+        <div class="col-md-6">
+          <iframe
+            src="https://thingspeak.com/channels/2376639/charts/4?bgcolor=%23ffffff&color=%23d62020&results=60"
+          ></iframe>
+        </div>
+        <div class="col-12">
+          <iframe
+            src="https://thingspeak.com/channels/2376639/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Content -->
+      <div class="row">
+        <div class="col-12 gps-readings">
+          <h2>GPS readings</h2>
+          <p>Click the button below to get your current location:</p>
+          <button onclick="getLocation()" class="btn btn-primary">
+            Get Location
+          </button>
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showMap);
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      }
+
+      function showMap(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&output=embed`;
+
+        // Display map in iframe
+        document.getElementById(
+          "map"
+        ).innerHTML = `<iframe src="${mapUrl}"></iframe>`;
+
+        // Storing location in a variable (if needed)
+        const location = {
+          latitude: latitude,
+          longitude: longitude,
+        };
+        console.log("Location:", location);
+
+        getLocationAndUpdateMap();
+
+        // Refresh location every minute
+        setInterval(getLocationAndUpdateMap, 60000); // 60000 milliseconds = 1 minute
+      }
+    </script>
+
+    <!-- Bootstrap JS and jQuery (optional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
